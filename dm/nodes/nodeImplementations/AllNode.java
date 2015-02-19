@@ -24,11 +24,13 @@ public class AllNode extends sinalgo.nodes.Node {
 	public void handleMessages(Inbox inbox) {
 		while(inbox.hasNext()) {
 			sinalgo.nodes.messages.Message msg = inbox.next();
+			//ASK
 			if (msg instanceof AskMessage) {
 				AskMessage walker = (AskMessage) msg;
 				int idp = walker.getMsgId();
 				int lp	= walker.getMsgL();
 				if (idp == this.ID) {
+					System.out.println(this + " resultat is set to TRUE");
 					this.resultat = true;
 				} else if (lp > 0) {
 					if (idp > this.ID) {
@@ -39,18 +41,21 @@ public class AllNode extends sinalgo.nodes.Node {
 						send(walker, nextNode);
 						System.out.println(this + " received message " + walker + " and sends it now (with l-1) to " + nextNode);
 					} else {
+						System.out.println(this + " resultat is set to FALSE");
 						resultat = false;
 					}
 				} else { //(lp == 0)
 					if (idp > this.ID) {
 						Node nextNode = inbox.getSender();
 						send(new ReplyMessage(idp), nextNode);
-						System.out.println(this + " received message " + walker + " and sends it now to " + nextNode);
-					} else
+						System.out.println(this + " received message " + walker + " and sends a Reply now to " + nextNode);
+					} else {
+						System.out.println(this + " resultat is set to FALSE");
 						resultat = false;
+					}
 				}
 				
-				
+			//REPLY
 			} else if (msg instanceof ReplyMessage) {
 				ReplyMessage walker = (ReplyMessage) msg;
 				int idp = walker.getMsgId();
@@ -60,7 +65,7 @@ public class AllNode extends sinalgo.nodes.Node {
 					redList.add(inbox.getSender());
 					Node nextNode = nextNodeExcept(outgoingConnections, redList );
 					send(walker, nextNode);
-					System.out.println(this + " received message " + walker + " and sends it now to " + nextNode);
+					System.out.println(this + " received message " + walker + " from " + inbox.getSender() +" and sends it now to " + nextNode);
 				} else if (idp == this.ID) {
 					n = n+1;
 					if (n==2) {
@@ -71,7 +76,7 @@ public class AllNode extends sinalgo.nodes.Node {
 						
 						send(new AskMessage(ID, l-1), d);
 						send(new AskMessage(ID, l-1), g);
-						System.out.println(this + " received message " + walker + " and sends new AskMsg now to " + g + " and "+d);
+						System.out.println(this + " received message " + walker + " from " + inbox.getSender() +" and sends new AskMsg now to " + g + " and "+d);
 					}
 				}
 			}
