@@ -6,6 +6,8 @@ public class AskMessage extends Message {
 
 	private static int msgCounter = 0;
 	private int msgId;
+	public enum Side {LEFT, RIGHT};
+	public Side side;
 	
 	public int getMsgId() {
 		return msgId;
@@ -16,10 +18,11 @@ public class AskMessage extends Message {
 	}
 
 	private int msgL;
-	public AskMessage(int id, int l) {
+	public AskMessage(int id, int l, Side s) {
 		super();
 		msgId = id;
 		msgL = l;
+		side = s;
 //		msgId = msgCounter;
 //		msgCounter++;
 	}

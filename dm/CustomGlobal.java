@@ -223,7 +223,8 @@ public class CustomGlobal extends AbstractCustomGlobal{
 //
 	private void buildRing(int numOfNodes) {
 		sinalgo.tools.Tools.removeAllNodes();		
-
+		AllNode.clear();
+		
 		// nodes
 		AllNode [] theNodes = new AllNode[numOfNodes];
 	
@@ -251,6 +252,7 @@ public class CustomGlobal extends AbstractCustomGlobal{
 		addEdge(theNodes[0], theNodes[numOfNodes - 1]);
 		// Repaint the GUI as we have added some nodes
 		sinalgo.tools.Tools.repaintGUI();
+
 		for (AllNode n : AllNode.nodeList)
 			n.InitiatingMessages();
 	}
