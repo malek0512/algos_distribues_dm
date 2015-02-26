@@ -241,6 +241,10 @@ private void traceTheMesage(Message msg) {
 		return String.valueOf(this.ID);
 	}
 	
+	public void setID(int id) {
+		this.ID = id;
+	}
+	
 	static public void clear() {
 		counter = 0;
 		nodeList.clear();
